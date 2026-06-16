@@ -1,0 +1,120 @@
+name: MERN CI/CD DevSecOps Pipeline
+
+# This triggers the pipeline every time you push to the 'main' branch
+on:
+  push:
+    branches: [ "main" ]
+    # The pipeline will ONLY run if changes are made inside these specific directories
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+      - '.github/workflows/ci.yml'
+      - 'sonar-project.properties'
+  
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+      - '.github/workflows/ci.yml'
+      - 'sonar-project.properties'
+
+# Define environment variables to use throughout the workflow
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  FRONTEND_IMAGE: ${{ secrets.DOCKER_USERNAME }}/wanderlust-frontend
+  BACKEND_IMAGE: ${{ secrets.DOCKER_USERNAME }}/wanderlust-backend
+
+jobs:
+  build-scan-and-push:
+    name: Build, Scan, and Push Images
+    runs-on: ubuntu-latest
+
+    steps:
+      # TASK A: Code Checkout
+      - name: 1. Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required for comprehensive SonarCloud analysis
+
+      # Set up Node.js and cache dependencies to speed up future builds
+      - name: 2. Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: |
+            frontend/package-lock.json
+            backend/package-lock.json
+
+      - name: 3. Install Dependencies (Frontend & Backend)
+        run: |
+          npm install --prefix frontend
+          npm install --prefix backend
+
+      # TASK B: OWASP Dependency-Check
+      - name: 4. Run OWASP Dependency-Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: 'Wanderlust'
+          path: '.'
+          format: 'HTML'
+        # Note: The first run might take 5-10 minutes as it downloads the vulnerability database.
+
+      # TASK C: SonarCloud Analysis
+      - name: 5. SonarCloud Code Analysis
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Provided automatically by GitHub
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        # Note: You will need a simple sonar-project.properties file in your repo root for this.
+
+      # TASK D: Docker Build
+      - name: 6. Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # We use the GitHub Run Number as a unique image tag (e.g., v1, v2, v3)
+      - name: 7. Build Docker Images locally
+        run: |
+          docker build -t $FRONTEND_IMAGE:${{ github.run_number }} ./frontend
+          docker build -t $BACKEND_IMAGE:${{ github.run_number }} ./backend
+
+      # TASK D (Cont.): Trivy Security Scan on the Docker Images
+      - name: 8. Run Trivy Vulnerability Scanner (Frontend)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ env.FRONTEND_IMAGE }}:${{ github.run_number }}'
+          format: 'table'
+          exit-code: '0' # Set to 1 if you want the pipeline to fail on critical vulnerabilities
+          severity: 'CRITICAL,HIGH'
+
+      - name: 9. Run Trivy Vulnerability Scanner (Backend)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ env.BACKEND_IMAGE }}:${{ github.run_number }}'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'
+
+      # TASK E: Registry Push
+      - name: 10. Push Images to Docker Hub
+        run: |
+          docker push $FRONTEND_IMAGE:${{ github.run_number }}
+          docker push $BACKEND_IMAGE:${{ github.run_number }}
+
+      # TASK F: The GitOps Bridge (Update Kubernetes Manifests for ArgoCD)
+      - name: 11. Update Kubernetes Manifests
+        run: |
+          # Replace the old image tags with the new run_number tags using sed
+          sed -i "s|image: .*/wanderlust-frontend:.*|image: $FRONTEND_IMAGE:${{ github.run_number }}|g" kubernetes/frontend.yaml
+          sed -i "s|image: .*/wanderlust-backend:.*|image: $BACKEND_IMAGE:${{ github.run_number }}|g" kubernetes/backend.yaml
+          
+          # Commit the changes back to the repository
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+          git add kubernetes/frontend.yaml kubernetes/backend.yaml
+          git commit -m "Update image tags to build ${{ github.run_number }} [skip ci]" || echo "No changes to commit"
+          git push
