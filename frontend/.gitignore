@@ -12,7 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Ignore all environment files by default
 .env*
+
+# EXCEPT for the docker config file, which our CI/CD pipeline needs!
+!.env.docker
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
