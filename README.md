@@ -1,16 +1,28 @@
-# Wanderlust - Ultimate DevSecOps Travel Blog 🌍✈️
+<div align="center">
+  <img src="assets/Frontend-Deployed.png" alt="Wanderlust Showcase" width="100%" style="border-radius: 10px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);" />
 
-Wanderlust is a production-grade, three-tier MERN stack travel blog application. This repository demonstrates a complete **modern DevSecOps CI/CD and GitOps delivery pipeline** using **GitHub Actions**, **ArgoCD**, and **Amazon EKS**.
+  # 🌍 Wanderlust Travel Blog ✈️
+
+  ### **A Production-Grade MERN Stack App Driven by a Modern DevSecOps & GitOps Pipeline**
+
+  *Deploying a secure, scalable three-tier stack on Amazon EKS with complete pipeline automation, static analysis, dependency vulnerability scanning, GitOps continuous delivery, and full-stack monitoring.*
+
+  <p align="center">
+    <a href="#-tech-stack--devsecops-tools"><img src="https://img.shields.io/badge/Kubernetes-AWS_EKS-FF9900?style=for-the-badge&logo=kubernetes&logoColor=white" alt="AWS EKS" /></a>
+    <a href="#4-argocd-installation--configuration"><img src="https://img.shields.io/badge/GitOps-ArgoCD-orange?style=for-the-badge&logo=argo&logoColor=white" alt="ArgoCD" /></a>
+    <a href="#3-github-actions-secrets-configuration"><img src="https://img.shields.io/badge/CI%2FCD-GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white" alt="GitHub Actions" /></a>
+    <a href="#-tech-stack--devsecops-tools"><img src="https://img.shields.io/badge/Security-Trivy_%26_OWASP-blue?style=for-the-badge&logo=securityscorecard&logoColor=white" alt="Security" /></a>
+    <a href="#2-sonarqube-server-deployment"><img src="https://img.shields.io/badge/Quality-SonarQube-4E9BCD?style=for-the-badge&logo=sonarqube&logoColor=white" alt="SonarQube" /></a>
+  </p>
+</div>
 
 ---
 
-## 🏗️ System Architecture & Pipeline Flow
+## 🏗️ System Architecture & Workflow
 
-This project implements a fully automated GitOps continuous integration and continuous deployment pipeline. Below is the end-to-end system architecture:
+This project is built around automated CI/CD flow triggering code quality, container builds, GitOps updates, and EKS deployments.
 
-![System Architecture](assets/System%20Architecture.png)
-
-### 🔁 The Pipeline Lifecycle
+### 🔁 End-to-End Delivery Sequence
 ```mermaid
 sequenceDiagram
     autonumber
@@ -68,25 +80,74 @@ sequenceDiagram
 
 ## 🛠️ Tech Stack & DevSecOps Tools
 
-| Category | Tool | Description |
-| :--- | :--- | :--- |
-| **Frontend** | ![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB) | Single Page Application built on React. |
-| **Backend** | ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white) ![Express](https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white) | RESTful API built on Node.js/Express. |
-| **Database & Cache** | ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white) ![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white) | Primary Database and caching layers. |
-| **CI Orchestrator** | ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat-square&logo=github-actions&logoColor=white) | Automates build, test, and security scanning jobs. |
-| **Security Scanning** | ![OWASP](https://img.shields.io/badge/OWASP-000000?style=flat-square&logo=owasp&logoColor=white) ![Trivy](https://img.shields.io/badge/Trivy-3E63DD?style=flat-square&logo=trivy&logoColor=white) | Scans for library vulnerabilities and container image issues. |
-| **Code Quality** | ![SonarQube](https://img.shields.io/badge/SonarQube-4E9BCD?style=flat-square&logo=sonarqube&logoColor=white) | Static Application Security Testing (SAST). |
-| **GitOps CD** | ![ArgoCD](https://img.shields.io/badge/ArgoCD-F3F4F6?style=flat-square&logo=argo&logoColor=orange) | Declares target state and auto-syncs with K8s. |
-| **Orchestration** | ![AWS EKS](https://img.shields.io/badge/AWS_EKS-FF9900?style=flat-square&logo=amazon-aws&logoColor=white) | Managed Kubernetes engine on AWS. |
-| **Monitoring** | ![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=flat-square&logo=prometheus&logoColor=white) ![Grafana](https://img.shields.io/badge/Grafana-F46800?style=flat-square&logo=grafana&logoColor=white) | System monitoring, alerting, and metric dashboards via Helm. |
-| **Notifications** | ![Gmail](https://img.shields.io/badge/Gmail-D14836?style=flat-square&logo=gmail&logoColor=white) | Instant email alerts on build states. |
+<table width="100%">
+  <thead>
+    <tr>
+      <th width="25%">Layer</th>
+      <th width="30%">Tools</th>
+      <th width="45%">Role in Architecture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>Frontend</b></td>
+      <td><img src="https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB" /></td>
+      <td>Interactive user interface for the travel blog website.</td>
+    </tr>
+    <tr>
+      <td><b>Backend</b></td>
+      <td><img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white" /> <img src="https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white" /></td>
+      <td>RESTful API layer handling core business logic & routing.</td>
+    </tr>
+    <tr>
+      <td><b>Database & Cache</b></td>
+      <td><img src="https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white" /> <img src="https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white" /></td>
+      <td>Primary Document DB and high-performance in-memory caching.</td>
+    </tr>
+    <tr>
+      <td><b>Orchestrator</b></td>
+      <td><img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat-square&logo=github-actions&logoColor=white" /></td>
+      <td>Manages execution of pipeline scans, builds, and automated commits.</td>
+    </tr>
+    <tr>
+      <td><b>Security Scanning</b></td>
+      <td><img src="https://img.shields.io/badge/OWASP-000000?style=flat-square&logo=owasp&logoColor=white" /> <img src="https://img.shields.io/badge/Trivy-3E63DD?style=flat-square&logo=trivy&logoColor=white" /></td>
+      <td>Third-party libraries dependency analyzer and Docker image scanner.</td>
+    </tr>
+    <tr>
+      <td><b>Code Quality</b></td>
+      <td><img src="https://img.shields.io/badge/SonarQube-4E9BCD?style=flat-square&logo=sonarqube&logoColor=white" /></td>
+      <td>Static Application Security Testing (SAST) and quality audits.</td>
+    </tr>
+    <tr>
+      <td><b>GitOps CD</b></td>
+      <td><img src="https://img.shields.io/badge/ArgoCD-F3F4F6?style=flat-square&logo=argo&logoColor=orange" /></td>
+      <td>Declarative GitOps engine syncing K8s configurations automatically.</td>
+    </tr>
+    <tr>
+      <td><b>Cloud Kubernetes</b></td>
+      <td><img src="https://img.shields.io/badge/AWS_EKS-FF9900?style=flat-square&logo=amazon-aws&logoColor=white" /></td>
+      <td>Managed highly available cluster to host Wanderlust workloads.</td>
+    </tr>
+    <tr>
+      <td><b>Monitoring</b></td>
+      <td><img src="https://img.shields.io/badge/Prometheus-E6522C?style=flat-square&logo=prometheus&logoColor=white" /> <img src="https://img.shields.io/badge/Grafana-F46800?style=flat-square&logo=grafana&logoColor=white" /></td>
+      <td>Real-time cluster metrics, performance panels, and alerts.</td>
+    </tr>
+    <tr>
+      <td><b>Email Broker</b></td>
+      <td><img src="https://img.shields.io/badge/Gmail-D14836?style=flat-square&logo=gmail&logoColor=white" /></td>
+      <td>Delivers build notifications to subscribers on job status changes.</td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 
 ## 🚀 Navigation & Setup Sections
 
-> [!NOTE]  
-> Follow these sections in sequence to deploy the complete architecture.
+> [!TIP]
+> Click any section below to navigate directly to the detailed configuration guide.
 
 * [1. AWS Infrastructure Setup (EKS)](#1-aws-infrastructure-setup-eks)
 * [2. SonarQube Server Deployment](#2-sonarqube-server-deployment)
@@ -320,30 +381,55 @@ eksctl delete cluster --name=wanderlust --region=us-west-1
 
 ## 8. Showcase Gallery
 
-Here is a visual breakdown of the running components, security analysis, and GitOps deployments:
+Here is a visual breakdown of the running components, security analysis, and GitOps deployments.
 
-### 🚀 CI Pipeline - GitHub Actions
-The multi-job DevSecOps pipeline builds and checks code quality, containerizes the app, performs scanning, pushes to Docker Hub, and triggers the GitOps bridge:
-![GitHub Actions 1](assets/GitHub-Actions-1.png)
-![GitHub Actions 2](assets/GitHub-Actions-2.png)
-
-### 🛡️ Static Application Security Testing (SonarQube)
-Full code-quality audit with code coverage, code smells, bugs, and vulnerability ratings:
-![SonarQube Analysis](assets/SonarQube.png)
-
-### 📦 Container Registry (Docker Hub)
-Build artifacts successfully tagged and stored in Docker Hub registry:
-![Docker Hub](assets/DockerHub.png)
-
-### 🔄 GitOps Synchronization (ArgoCD)
-ArgoCD continuously reconciling manifest states, mapping deployment and service entities onto Kubernetes:
-![ArgoCD Dashboard 1](assets/AgroCD-1.png)
-![ArgoCD Dashboard 2](assets/AgroCD-2.png)
-
-### 🖥️ Cluster Management (K9s Terminal)
-Kubernetes pods, services, and configs monitored via the K9s CLI terminal dashboard:
-![K9s Terminal](assets/K9-Terminal.png)
-
-### 🌍 Deployed Application
-The Wanderlust three-tier application deployed and fully accessible online:
-![Frontend Deployed](assets/Frontend-Deployed.png)
+<table width="100%">
+  <tr>
+    <td width="50%" align="center">
+      <b>🚀 CI Pipeline - Build & Test (GitHub Actions)</b>
+      <br/><br/>
+      <img src="assets/GitHub-Actions-1.png" width="100%" style="border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.15);" />
+    </td>
+    <td width="50%" align="center">
+      <b>🚀 CI Pipeline - Push & Bridge (GitHub Actions)</b>
+      <br/><br/>
+      <img src="assets/GitHub-Actions-2.png" width="100%" style="border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.15);" />
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <b>🛡️ Static Code Analysis (SonarQube)</b>
+      <br/><br/>
+      <img src="assets/SonarQube.png" width="100%" style="border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.15);" />
+    </td>
+    <td width="50%" align="center">
+      <b>📦 Container Registry (Docker Hub)</b>
+      <br/><br/>
+      <img src="assets/DockerHub.png" width="100%" style="border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.15);" />
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <b>🔄 GitOps Sync - Overview (ArgoCD)</b>
+      <br/><br/>
+      <img src="assets/AgroCD-1.png" width="100%" style="border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.15);" />
+    </td>
+    <td width="50%" align="center">
+      <b>🔄 GitOps Sync - Details (ArgoCD)</b>
+      <br/><br/>
+      <img src="assets/AgroCD-2.png" width="100%" style="border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.15);" />
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <b>🖥️ Workloads Terminal Monitor (K9s CLI)</b>
+      <br/><br/>
+      <img src="assets/K9-Terminal.png" width="100%" style="border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.15);" />
+    </td>
+    <td width="50%" align="center">
+      <b>🌍 Deployed Frontend Application</b>
+      <br/><br/>
+      <img src="assets/Frontend-Deployed.png" width="100%" style="border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.15);" />
+    </td>
+  </tr>
+</table>
