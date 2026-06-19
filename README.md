@@ -22,59 +22,9 @@
 
 This project is built around automated CI/CD flow triggering code quality, container builds, GitOps updates, and EKS deployments.
 
-### 🔁 End-to-End Delivery Sequence
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Developer
-    participant GitHub as GitHub Repository
-    participant Actions as GitHub Actions (CI)
-    participant SecScan as Security & QA (OWASP/Sonar/Trivy)
-    participant Registry as Docker Hub
-    participant ArgoCD as ArgoCD (GitOps CD)
-    participant EKS as AWS EKS Cluster
-    participant Prometheus as Prometheus & Grafana
-    participant Gmail as Gmail Notification
+### 🔁 System Architecture & Pipeline Flow
 
-    Developer->>GitHub: Push code to main branch
-    activate GitHub
-    GitHub->>Actions: Trigger CI/CD Pipeline
-    deactivate GitHub
-    activate Actions
-    
-    Note over Actions,SecScan: CI Security & Analysis Phase
-    Actions->>SecScan: Run OWASP Dependency Check
-    SecScan-->>Actions: Report vulnerabilities
-    Actions->>SecScan: Run SonarQube Static Code Analysis
-    SecScan-->>Actions: Report quality gate results
-    Actions->>SecScan: Run Trivy Filesystem Scan
-    SecScan-->>Actions: Scan results
-
-    Note over Actions,Registry: Containerization & Push Phase
-    Actions->>Actions: Build Docker Images (tagged with Run Number)
-    Actions->>SecScan: Scan Docker Images via Trivy
-    SecScan-->>Actions: Container vulnerability report
-    Actions->>Registry: Authenticate & Push Images
-    
-    Note over Actions,GitHub: GitOps Manifest Update Phase
-    Actions->>GitHub: Update image tags in Kubernetes YAMLs
-    Actions->>GitHub: Commit and Push manifest changes to repo
-    
-    Note over GitHub,ArgoCD: GitOps CD Synchronization Phase
-    GitHub-->>ArgoCD: Detect manifest updates (Poll/Webhook)
-    activate ArgoCD
-    ArgoCD->>EKS: Apply changes & sync target state
-    deactivate ArgoCD
-    activate EKS
-    
-    Note over EKS,Prometheus: Monitoring & Analytics
-    EKS->>Prometheus: Publish metrics & workload logs
-    deactivate EKS
-    
-    Note over Actions,Gmail: Pipeline Notifications
-    Actions->>Gmail: Send build status report (Success/Failure)
-    deactivate Actions
-```
+<img src="assets/System%20Architecture.png" alt="System Architecture" width="100%" style="border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);" />
 
 ---
 
