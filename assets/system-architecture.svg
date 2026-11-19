@@ -1,0 +1,524 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 780" width="100%" height="100%" font-family="&#39;Segoe UI&#39;, Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <!-- Arrowhead marker -->
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9.5 5 L 0 8.8 z" fill="#111827" />
+    </marker>
+
+    <!-- Glow filter for traveling flow dots -->
+    <filter id="flow-glow" x="-120%" y="-120%" width="340%" height="340%">
+      <feGaussianBlur stdDeviation="3.2" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Soft shadow for floating badge -->
+    <filter id="soft-shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3.5" flood-color="#000000" flood-opacity="0.28" />
+    </filter>
+
+    <!-- Flow paths (used both for visible connectors and animateMotion mpath) -->
+    <!-- 1. Developer <-> GitHub (Push code) -->
+    <path id="path-dev-github" d="M 95 256 L 95 134" />
+    <!-- 2. GitHub -> GitHub Actions CI (Pull code) -->
+    <path id="path-github-ci" d="M 163 80 L 345 94" />
+    <!-- 3. GitHub Actions CI -> OWASP (Dependency check) -->
+    <path id="path-ci-owasp" d="M 523 102 L 726 103" />
+    <!-- 4. OWASP -> SonarQube (Code and quality gate analysis) -->
+    <path id="path-owasp-sonar" d="M 897 104 L 1141 104" />
+    <!-- 5. SonarQube -> Trivy (Filesystem scan) -->
+    <path id="path-sonar-trivy" d="M 1261 131 L 1261 227" />
+    <!-- 6. Trivy -> Docker (Docker build and push) -->
+    <path id="path-trivy-docker" d="M 1218 271 L 987 271" />
+    <!-- 7. GitHub Actions CI -> GitHub CD (Trigger CD) -->
+    <path id="path-ci-cd" d="M 422 192 L 422 431" />
+    <!-- 8. GitHub CD -> Argo CD (Deploy on K8s) -->
+    <path id="path-cd-argo" d="M 519 488 L 740 488" />
+    <!-- 9. Argo CD -> Kubernetes -->
+    <path id="path-argo-k8s" d="M 955 483 L 1152 483" />
+    <!-- 10. Kubernetes -> Prometheus (Monitoring) -->
+    <path id="path-k8s-prom" d="M 1221 545 L 1221 685 L 1068 685" />
+    <!-- 11. Prometheus -> Grafana -->
+    <path id="path-prom-grafana" d="M 952 685 L 847 685" />
+    <!-- 12. Grafana -> Gmail (Notify on email) -->
+    <path id="path-grafana-gmail" d="M 730 685 L 504 685" />
+  </defs>
+
+  <style>
+    .stage-box {
+      fill: none;
+      stroke: #1b365d;
+      stroke-width: 2;
+      stroke-dasharray: 6 4;
+    }
+    .connector {
+      fill: none;
+      stroke: #111827;
+      stroke-width: 2;
+      marker-end: url(#arrow);
+    }
+    .connector-bidir {
+      fill: none;
+      stroke: #111827;
+      stroke-width: 2;
+      marker-start: url(#arrow);
+      marker-end: url(#arrow);
+    }
+    .label-main {
+      fill: #111827;
+      font-size: 21px;
+      font-weight: 400;
+      text-anchor: middle;
+    }
+    .label-sub {
+      fill: #111827;
+      font-size: 19px;
+      font-weight: 400;
+    }
+    .flow-dot {
+      fill: #00d2ff;
+      stroke: #ffffff;
+      stroke-width: 1.5;
+      filter: url(#flow-glow);
+    }
+    .flow-dot-warm {
+      fill: #ff9f1c;
+      stroke: #ffffff;
+      stroke-width: 1.5;
+      filter: url(#flow-glow);
+    }
+  </style>
+
+  <!-- Background -->
+  <rect width="1400" height="780" fill="#ffffff" />
+
+  <!-- Top Dashed Stage Boundary (CI & Security / Build) -->
+  <rect x="197" y="12" width="1187" height="352" class="stage-box" />
+
+  <!-- Bottom Dashed Stage Boundary (CD & Monitoring) -->
+  <rect x="197" y="379" width="1187" height="388" class="stage-box" />
+
+  <!-- ==================== LEFT COLUMN: DEVELOPER & GITHUB ==================== -->
+
+  <!-- Top GitHub Octocat -->
+  <g id="octocat-top" transform="translate(52, 22)">
+    <ellipse cx="43" cy="74" rx="28" ry="6" fill="#93d5e8" opacity="0.65" />
+    <!-- Ears -->
+    <path d="M 22 24 L 18 8 L 32 17 Z" fill="#1f2328" />
+    <path d="M 64 24 L 68 8 L 54 17 Z" fill="#1f2328" />
+    <!-- Head -->
+    <ellipse cx="43" cy="36" rx="26" ry="20" fill="#1f2328" />
+    <!-- Face mask -->
+    <path d="M 24 38 C 24 29, 32 28, 37 31 C 40 33, 46 33, 49 31 C 54 28, 62 29, 62 38 C 62 48, 53 52, 43 52 C 33 52, 24 48, 24 38 Z" fill="#f6d8ce" />
+    <!-- Eyes -->
+    <circle cx="35" cy="38" r="3.4" fill="#1f2328" />
+    <circle cx="51" cy="38" r="3.4" fill="#1f2328" />
+    <circle cx="34" cy="37" r="1.1" fill="#ffffff" />
+    <circle cx="50" cy="37" r="1.1" fill="#ffffff" />
+    <!-- Nose & mouth -->
+    <circle cx="43" cy="43" r="1.5" fill="#1f2328" />
+    <path d="M 39 46 Q 43 49 47 46" fill="none" stroke="#1f2328" stroke-width="1.3" stroke-linecap="round" />
+    <!-- Whiskers -->
+    <path d="M 19 37 L 9 35 M 19 41 L 9 42 M 67 37 L 77 35 M 67 41 L 77 42" stroke="#1f2328" stroke-width="1.2" stroke-linecap="round" />
+    <!-- Body & Tentacles -->
+    <path d="M 31 51 L 55 51 L 57 67 L 29 67 Z" fill="#1f2328" />
+    <path d="M 34 65 L 34 73 M 40 65 L 40 74 M 46 65 L 46 74 M 52 65 L 52 73" stroke="#1f2328" stroke-width="3.2" stroke-linecap="round" />
+    <!-- Tail -->
+    <path d="M 29 63 C 17 65, 11 58, 15 54" fill="none" stroke="#1f2328" stroke-width="3.2" stroke-linecap="round" />
+    <!-- Arms -->
+    <path d="M 28 55 C 21 57, 21 62, 27 63" fill="none" stroke="#1f2328" stroke-width="3" stroke-linecap="round" />
+    <path d="M 58 55 C 65 57, 65 62, 59 63" fill="none" stroke="#1f2328" stroke-width="3" stroke-linecap="round" />
+  </g>
+  <text x="95" y="121" class="label-main">GitHub</text>
+
+  <!-- Floating black dot on Pull code line -->
+  <circle cx="163" cy="80" r="7.5" fill="#111827" filter="url(#soft-shadow)" />
+
+  <!-- Developer Illustration -->
+  <g id="developer-illustration" transform="translate(17, 266)">
+    <!-- Soft pastel backdrop blob -->
+    <path d="M 16 28 C 28 6, 62 2, 92 6 C 122 10, 142 28, 136 52 C 132 70, 115 80, 75 80 C 35 80, 6 72, 10 48 C 12 38, 12 34, 16 28 Z" fill="#eef2ff" />
+    <!-- Decorative floating UI cards/icons -->
+    <rect x="22" y="13" width="16" height="11" rx="2" fill="#f9a8d4" opacity="0.75" />
+    <circle cx="118" cy="18" r="7" fill="#38bdf8" opacity="0.75" />
+    <rect x="112" y="34" width="18" height="13" rx="2" fill="#93c5fd" opacity="0.7" />
+    <rect x="105" y="54" width="15" height="15" rx="2" fill="#f5d0fe" opacity="0.75" />
+    <rect x="21" y="53" width="27" height="24" rx="2" fill="#a5b4fc" opacity="0.8" />
+    <circle cx="34" cy="65" r="6" fill="#ffffff" opacity="0.6" />
+    <!-- Desk -->
+    <rect x="33" y="42" width="80" height="4" rx="1" fill="#c7d2fe" />
+    <rect x="42" y="46" width="4" height="33" fill="#94a3b8" />
+    <rect x="100" y="46" width="4" height="33" fill="#94a3b8" />
+    <!-- Monitor -->
+    <rect x="53" y="12" width="40" height="27" rx="2" fill="#1e293b" />
+    <rect x="56" y="15" width="34" height="20" fill="#f8fafc" />
+    <!-- Screen code/chart lines -->
+    <rect x="59" y="18" width="12" height="6" fill="#38bdf8" />
+    <rect x="73" y="18" width="14" height="2.5" fill="#cbd5e1" />
+    <rect x="73" y="22" width="11" height="2.5" fill="#cbd5e1" />
+    <rect x="59" y="27" width="27" height="5" fill="#e2e8f0" />
+    <rect x="70" y="39" width="6" height="3" fill="#64748b" />
+    <!-- Chair -->
+    <rect x="64" y="47" width="18" height="4" rx="2" fill="#4f46e5" />
+    <line x1="73" y1="51" x2="73" y2="75" stroke="#475569" stroke-width="2.5" />
+    <line x1="63" y1="76" x2="83" y2="76" stroke="#475569" stroke-width="2.5" stroke-linecap="round" />
+    <!-- Person -->
+    <circle cx="73" cy="28" r="5.5" fill="#fdba74" />
+    <path d="M 67.5 27 C 67.5 22, 78.5 22, 78.5 27 Z" fill="#1e293b" />
+    <path d="M 65 35 C 65 33, 81 33, 81 35 L 82 50 L 64 50 Z" fill="#6366f1" />
+    <!-- Arms typing -->
+    <path d="M 65 36 L 57 42 L 64 43" fill="none" stroke="#fdba74" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M 81 36 L 89 42 L 82 43" fill="none" stroke="#fdba74" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+    <!-- Legs & shoes -->
+    <path d="M 67 50 L 65 73 L 59 73" fill="none" stroke="#1e293b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M 79 50 L 81 73 L 87 73" fill="none" stroke="#1e293b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+  <text x="88" y="393" class="label-main">Developer</text>
+
+  <!-- Push code label (rotated vertically along left arrow) -->
+  <text x="68" y="201" class="label-sub" transform="rotate(-90, 68, 201)" text-anchor="middle">Push code</text>
+
+  <!-- ==================== TOP PIPELINE (CI & SECURITY) ==================== -->
+
+  <!-- Pull code label -->
+  <text x="267" y="74" class="label-sub" text-anchor="middle">Pull code</text>
+
+  <!-- GitHub Actions CI Icon -->
+  <g id="github-actions-icon" transform="translate(373, 46)">
+    <!-- Start node (play circle) -->
+    <circle cx="18" cy="18" r="18" fill="none" stroke="#2589ff" stroke-width="3.6" />
+    <polygon points="15,11 26,18 15,25" fill="#2589ff" />
+    <!-- Vertical branch line -->
+    <path d="M 18 36 L 18 78 C 18 81, 20 82, 23 82 L 32 82" fill="none" stroke="#2589ff" stroke-width="3.4" stroke-linecap="round" />
+    <!-- Upper branch to X node -->
+    <path d="M 18 48 L 32 48" fill="none" stroke="#2589ff" stroke-width="3.4" stroke-linecap="round" />
+    <!-- X circle -->
+    <circle cx="44" cy="48" r="12" fill="none" stroke="#2589ff" stroke-width="3.2" />
+    <path d="M 40.5 44.5 L 47.5 51.5 M 47.5 44.5 L 40.5 51.5" stroke="#2589ff" stroke-width="2.6" stroke-linecap="round" />
+    <!-- Right branch to Check node -->
+    <path d="M 56 48 L 67 48" fill="none" stroke="#2589ff" stroke-width="3.4" stroke-linecap="round" />
+    <!-- Check circle -->
+    <circle cx="79" cy="48" r="12" fill="none" stroke="#2589ff" stroke-width="3.2" />
+    <path d="M 74.5 48.2 L 77.8 51.5 L 84 44.5" fill="none" stroke="#2589ff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+    <!-- Lower + circle -->
+    <circle cx="44" cy="82" r="12" fill="none" stroke="#2589ff" stroke-width="3.2" />
+    <path d="M 44 77.5 L 44 86.5 M 39.5 82 L 48.5 82" stroke="#2589ff" stroke-width="2.6" stroke-linecap="round" />
+    <!-- Right dashed/arc circle -->
+    <path d="M 79 70 A 12 12 0 1 1 67 82" fill="none" stroke="#8abef8" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="4 3.5" />
+  </g>
+  <text x="427" y="172" class="label-main">GitHub Actions CI</text>
+
+  <!-- Dependency check label -->
+  <text x="625" y="78" class="label-sub" text-anchor="middle">Dependency check</text>
+
+  <!-- OWASP Logo -->
+  <g id="owasp-logo" transform="translate(744, 89)">
+    <g fill="none" stroke="#111827" stroke-width="3.2" stroke-linejoin="round">
+      <!-- O -->
+      <rect x="0" y="0" width="20" height="26" />
+      <!-- W -->
+      <path d="M 27 0 L 27 26 L 38 26 L 38 11 L 38 26 L 49 26 L 49 0" />
+      <!-- A -->
+      <path d="M 56 26 L 56 0 L 76 0 L 76 26 M 56 13 L 76 13" />
+      <!-- S -->
+      <path d="M 103 0 L 83 0 L 83 13 L 103 13 L 103 26 L 83 26" />
+      <!-- P -->
+      <path d="M 110 26 L 110 0 L 130 0 L 130 13 L 110 13" />
+    </g>
+  </g>
+
+  <!-- Code and quality gate analysis label -->
+  <text x="1020" y="67" class="label-sub" text-anchor="middle">Code and quality gate</text>
+  <text x="1020" y="91" class="label-sub" text-anchor="middle">analysis</text>
+
+  <!-- SonarQube Logo -->
+  <g id="sonarqube-logo" transform="translate(1162, 74)">
+    <text x="0" y="38" fill="#111827" font-size="33" font-weight="700" letter-spacing="-0.8">sonarqube</text>
+    <!-- Concentric signal arcs on top-right -->
+    <path d="M 152 1 C 170 1, 185 16, 185 35" fill="none" stroke="#5bb4e5" stroke-width="2.4" stroke-linecap="round" />
+    <path d="M 155 8 C 168 8, 178 19, 178 34" fill="none" stroke="#5bb4e5" stroke-width="2.2" stroke-linecap="round" />
+    <path d="M 158 15 C 166 15, 172 22, 172 33" fill="none" stroke="#5bb4e5" stroke-width="2" stroke-linecap="round" />
+  </g>
+
+  <!-- Filesystem scan label -->
+  <text x="1317" y="168" class="label-sub" text-anchor="middle">Filesystem</text>
+  <text x="1317" y="192" class="label-sub" text-anchor="middle">scan</text>
+
+  <!-- Trivy Logo -->
+  <g id="trivy-logo" transform="translate(1233, 237)">
+    <!-- Hexagonal shield facets -->
+    <polygon points="28,0 55,15 55,46 28,61 1,46 1,15" fill="#1877b8" />
+    <polygon points="28,0 55,15 28,30.5" fill="#f3a622" />
+    <polygon points="1,15 28,0 28,30.5" fill="#2aa3df" />
+    <polygon points="1,15 28,30.5 1,46" fill="#2389c9" />
+    <polygon points="55,15 55,46 28,30.5" fill="#13639c" />
+    <polygon points="28,30.5 55,46 28,61" fill="#0f5182" />
+    <polygon points="1,46 28,30.5 28,61" fill="#1b74b2" />
+    <!-- Target radar rings -->
+    <circle cx="28" cy="30.5" r="14" fill="none" stroke="#ffffff" stroke-width="1.3" opacity="0.85" />
+    <circle cx="28" cy="30.5" r="7.5" fill="none" stroke="#ffffff" stroke-width="1.3" opacity="0.9" />
+    <circle cx="28" cy="30.5" r="2.8" fill="#ffffff" />
+    <line x1="28" y1="12" x2="28" y2="49" stroke="#ffffff" stroke-width="1" opacity="0.65" />
+    <line x1="11" y1="21" x2="45" y2="40" stroke="#ffffff" stroke-width="1" opacity="0.65" />
+    <line x1="45" y1="21" x2="11" y2="40" stroke="#ffffff" stroke-width="1" opacity="0.65" />
+    <!-- Trivy text -->
+    <text x="28" y="80" fill="#1877b8" font-size="22" font-weight="600" text-anchor="middle" letter-spacing="0.5">trivy</text>
+  </g>
+
+  <!-- Docker build and push label -->
+  <text x="1093" y="297" class="label-sub" text-anchor="middle">Docker build</text>
+  <text x="1093" y="321" class="label-sub" text-anchor="middle">and push</text>
+
+  <!-- Docker Logo -->
+  <g id="docker-logo" transform="translate(855, 224)">
+    <!-- Containers grid -->
+    <g fill="#2496ed" stroke="#ffffff" stroke-width="1.2">
+      <rect x="40" y="7" width="11" height="9" rx="1" />
+      <rect x="28" y="17" width="11" height="9" rx="1" />
+      <rect x="40" y="17" width="11" height="9" rx="1" />
+      <rect x="52" y="17" width="11" height="9" rx="1" />
+      <rect x="64" y="17" width="11" height="9" rx="1" />
+    </g>
+    <!-- Whale body -->
+    <path d="M 17 39 C 17 34, 21 30, 26 30 L 84 30 C 86 24, 92 20, 98 22 C 96 27, 97 31, 101 33 C 103 34, 105 33, 106 31 C 107 36, 103 41, 98 42 C 91 55, 76 62, 56 62 C 33 62, 17 52, 17 39 Z" fill="#2496ed" />
+    <!-- Whale eye & belly highlight -->
+    <circle cx="84" cy="36" r="2" fill="#ffffff" />
+    <path d="M 25 44 C 38 51, 64 51, 82 43" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.5" />
+    <!-- Water wave -->
+    <path d="M 8 53 Q 17 58 27 53 Q 37 48 47 53 Q 57 58 67 53 Q 77 48 87 53" fill="none" stroke="#2496ed" stroke-width="2.4" stroke-linecap="round" />
+    <!-- docker text -->
+    <text x="57" y="93" fill="#1d63ed" font-size="31" font-weight="600" text-anchor="middle" letter-spacing="0.5">docker</text>
+  </g>
+
+  <!-- ==================== BOTTOM PIPELINE (CD & MONITORING) ==================== -->
+
+  <!-- Trigger CD label -->
+  <text x="480" y="407" class="label-sub" text-anchor="middle">Trigger CD</text>
+
+  <!-- Bottom GitHub Octocat -->
+  <g id="octocat-bottom" transform="translate(362, 439)">
+    <ellipse cx="64" cy="100" rx="34" ry="8" fill="#93d5e8" opacity="0.65" />
+    <!-- Ears -->
+    <path d="M 35 32 L 29 10 L 49 23 Z" fill="#1f2328" />
+    <path d="M 93 32 L 99 10 L 79 23 Z" fill="#1f2328" />
+    <!-- Head -->
+    <ellipse cx="64" cy="48" rx="35" ry="26" fill="#1f2328" />
+    <!-- Face mask -->
+    <path d="M 38 51 C 38 39, 49 38, 56 42 C 60 44, 68 44, 72 42 C 79 38, 90 39, 90 51 C 90 64, 78 69, 64 69 C 50 69, 38 64, 38 51 Z" fill="#f6d8ce" />
+    <!-- Eyes -->
+    <circle cx="53" cy="51" r="4.5" fill="#1f2328" />
+    <circle cx="75" cy="51" r="4.5" fill="#1f2328" />
+    <circle cx="51.5" cy="49.5" r="1.4" fill="#ffffff" />
+    <circle cx="73.5" cy="49.5" r="1.4" fill="#ffffff" />
+    <!-- Nose & mouth -->
+    <circle cx="64" cy="58" r="2" fill="#1f2328" />
+    <path d="M 59 62 Q 64 66 69 62" fill="none" stroke="#1f2328" stroke-width="1.6" stroke-linecap="round" />
+    <!-- Whiskers -->
+    <path d="M 31 50 L 14 47 M 31 55 L 14 57 M 97 50 L 114 47 M 97 55 L 114 57" stroke="#1f2328" stroke-width="1.5" stroke-linecap="round" />
+    <!-- Body & Tentacles -->
+    <path d="M 48 68 L 80 68 L 83 90 L 45 90 Z" fill="#1f2328" />
+    <path d="M 52 88 L 52 99 M 60 88 L 60 100 M 68 88 L 68 100 M 76 88 L 76 99" stroke="#1f2328" stroke-width="4.2" stroke-linecap="round" />
+    <!-- Tail -->
+    <path d="M 45 84 C 28 87, 21 77, 26 72" fill="none" stroke="#1f2328" stroke-width="4.2" stroke-linecap="round" />
+    <!-- Arms -->
+    <path d="M 44 74 C 34 77, 34 84, 43 85" fill="none" stroke="#1f2328" stroke-width="4" stroke-linecap="round" />
+    <path d="M 84 74 C 94 77, 94 84, 85 85" fill="none" stroke="#1f2328" stroke-width="4" stroke-linecap="round" />
+  </g>
+  <text x="422" y="574" class="label-main">GitHub</text>
+  <text x="422" y="601" class="label-main">(Push/Pull)</text>
+
+  <!-- Deploy on K8s label -->
+  <text x="633" y="473" class="label-sub" text-anchor="middle">Deploy on K8s</text>
+
+  <!-- Argo CD Octopus Logo + Text -->
+  <g id="argo-logo" transform="translate(751, 434)">
+    <!-- Halo ring -->
+    <circle cx="42" cy="36" r="35" fill="none" stroke="#bfe3f5" stroke-width="3.5" opacity="0.8" />
+    <circle cx="42" cy="36" r="31.5" fill="none" stroke="#e0f2fe" stroke-width="2" />
+    <!-- Octopus body -->
+    <path d="M 24 44 C 24 27, 60 27, 60 44 C 60 55, 52 60, 42 60 C 32 60, 24 55, 24 44 Z" fill="#f26639" />
+    <!-- Eyes -->
+    <circle cx="35" cy="44" r="5" fill="#ffffff" />
+    <circle cx="49" cy="44" r="5" fill="#ffffff" />
+    <circle cx="35.5" cy="44.5" r="2.2" fill="#1e293b" />
+    <circle cx="48.5" cy="44.5" r="2.2" fill="#1e293b" />
+    <!-- Smile -->
+    <path d="M 38 52 Q 42 55 46 52" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" />
+    <!-- Tentacles -->
+    <path d="M 29 58 C 24 67, 17 70, 20 75 C 23 78, 29 70, 33 60" fill="none" stroke="#f26639" stroke-width="3.6" stroke-linecap="round" />
+    <path d="M 36 60 C 34 70, 31 76, 35 78 C 38 79, 40 70, 40 60" fill="none" stroke="#f26639" stroke-width="3.6" stroke-linecap="round" />
+    <path d="M 44 60 C 44 70, 46 78, 49 78 C 53 76, 50 70, 48 60" fill="none" stroke="#f26639" stroke-width="3.6" stroke-linecap="round" />
+    <path d="M 51 58 C 55 70, 61 78, 64 75 C 67 70, 60 67, 55 58" fill="none" stroke="#f26639" stroke-width="3.6" stroke-linecap="round" />
+    <!-- argo text -->
+    <text x="90" y="57" fill="#111827" font-size="45" font-weight="600" letter-spacing="-0.8">argo</text>
+  </g>
+
+  <!-- Kubernetes Logo -->
+  <g id="kubernetes-logo" transform="translate(1173, 434)">
+    <!-- Hexagon shield -->
+    <polygon points="48,2 85,23 85,65 48,86 11,65 11,23" fill="#326ce5" />
+    <!-- Helm outer ring -->
+    <circle cx="48" cy="44" r="22" fill="none" stroke="#ffffff" stroke-width="4.5" />
+    <!-- Helm inner hub -->
+    <circle cx="48" cy="44" r="6" fill="#326ce5" stroke="#ffffff" stroke-width="3.2" />
+    <!-- 7 Spokes -->
+    <g stroke="#ffffff" stroke-width="3.6" stroke-linecap="round">
+      <line x1="48" y1="14" x2="48" y2="38" />
+      <line x1="48" y1="50" x2="48" y2="66" />
+      <line x1="22" y1="35" x2="42" y2="42" />
+      <line x1="54" y1="46" x2="74" y2="53" />
+      <line x1="29" y1="63" x2="44" y2="49" />
+      <line x1="52" y1="39" x2="67" y2="25" />
+      <line x1="24" y1="51" x2="42" y2="46" />
+    </g>
+    <!-- kubernetes label -->
+    <text x="48" y="109" fill="#111827" font-size="21" font-weight="700" text-anchor="middle" letter-spacing="-0.3">kubernetes</text>
+  </g>
+
+  <!-- Monitoring label -->
+  <text x="1282" y="619" class="label-sub" text-anchor="middle">Monitoring</text>
+
+  <!-- Prometheus Logo -->
+  <g id="prometheus-logo" transform="translate(972, 642)">
+    <circle cx="40" cy="34" r="34" fill="#e6522c" />
+    <!-- Flame & Torch -->
+    <path d="M 40 9 C 34 17, 34 24, 37 29 C 32 25, 29 19, 29 15 C 23 22, 23 32, 28 38 L 52 38 C 57 32, 57 22, 51 15 C 51 19, 48 25, 43 29 C 46 24, 46 17, 40 9 Z" fill="#ffffff" />
+    <rect x="24" y="39" width="32" height="5.5" rx="2" fill="#ffffff" />
+    <rect x="28" y="46.5" width="24" height="4.5" rx="1.5" fill="#ffffff" />
+    <path d="M 33 53 L 47 53 L 44 58 L 36 58 Z" fill="#ffffff" />
+    <text x="40" y="87" fill="#52525b" font-size="16" font-weight="400" text-anchor="middle">Prometheus</text>
+  </g>
+
+  <!-- Grafana Logo -->
+  <g id="grafana-logo" transform="translate(751, 641)">
+    <!-- Swirl gear icon -->
+    <g transform="translate(11, 0)">
+      <path d="M 27 2 L 30 8.5 A 19 19 0 0 1 36.5 11 L 42.5 7.5 L 47 12 L 43.5 18 A 19 19 0 0 1 46 24.5 L 52.5 27.5 L 52.5 34 L 46 37 A 19 19 0 0 1 43.5 43.5 L 47 49.5 L 42.5 54 L 36.5 50.5 A 19 19 0 0 1 30 53 L 27 59.5 L 20.5 59.5 L 17.5 53 A 19 19 0 0 1 11 50.5 L 5 54 L 0.5 49.5 L 4 43.5 A 19 19 0 0 1 1.5 37 L -5 34 L -5 27.5 L 1.5 24.5 A 19 19 0 0 1 4 18 L 0.5 12 L 5 7.5 L 11 11 A 19 19 0 0 1 17.5 8.5 L 20.5 2 Z" fill="#f46800" />
+      <circle cx="23.8" cy="30.8" r="14.5" fill="#ffffff" />
+      <path d="M 24 19 C 32 19, 36 25, 34 32 C 32 37, 26 39, 22 36 C 19 34, 19 29, 22 28 C 24 27, 26 29, 25 31" fill="none" stroke="#f46800" stroke-width="3.6" stroke-linecap="round" />
+      <path d="M 16 38 C 12 31, 15 21, 23 18 C 31 15, 39 20, 40 29" fill="none" stroke="#f46800" stroke-width="2.4" stroke-linecap="round" />
+    </g>
+    <text x="38" y="85" fill="#111827" font-size="25" font-weight="600" text-anchor="middle" letter-spacing="-0.5">Grafana</text>
+  </g>
+
+  <!-- Notify on email label -->
+  <text x="617" y="667" class="label-sub" text-anchor="middle">Notify on email</text>
+
+  <!-- Gmail Icon -->
+  <g id="gmail-icon" transform="translate(366, 636)">
+    <rect x="0" y="0" width="112" height="94" rx="14" fill="#f4f5f7" />
+    <!-- Left blue band -->
+    <path d="M 22 25 L 22 72 L 14 72 C 11.8 72 10 70.2 10 68 L 10 26 C 10 21.5 15.2 19 18.7 21.8 Z" fill="#4285f4" />
+    <!-- Right green band -->
+    <path d="M 90 25 L 90 72 L 98 72 C 100.2 72 102 70.2 102 68 L 102 26 C 102 21.5 96.8 19 93.3 21.8 Z" fill="#34a853" />
+    <!-- Bottom grey shadow triangle -->
+    <polygon points="22,72 56,47 90,72" fill="#e0e2e6" />
+    <!-- Top red V fold -->
+    <path d="M 14 23 L 56 54 L 98 23 L 98 33 L 56 64 L 14 33 Z" fill="#ea4335" />
+    <!-- Left and right red vertical edges -->
+    <path d="M 10 26 L 18 32 L 18 72 L 10 72 Z" fill="#ea4335" />
+    <path d="M 102 26 L 94 32 L 94 72 L 102 72 Z" fill="#ea4335" />
+  </g>
+
+  <!-- ==================== CONNECTING LINES & ARROWS ==================== -->
+  <use href="#path-dev-github" class="connector-bidir" />
+  <use href="#path-github-ci" class="connector" />
+  <use href="#path-ci-owasp" class="connector" />
+  <use href="#path-owasp-sonar" class="connector" />
+  <use href="#path-sonar-trivy" class="connector" />
+  <use href="#path-trivy-docker" class="connector" />
+  <use href="#path-ci-cd" class="connector" />
+  <use href="#path-cd-argo" class="connector" />
+  <use href="#path-argo-k8s" class="connector" />
+  <use href="#path-k8s-prom" class="connector" />
+  <use href="#path-prom-grafana" class="connector" />
+  <use href="#path-grafana-gmail" class="connector" />
+
+  <!-- ==================== SEAMLESS FLOW ANIMATIONS ==================== -->
+
+  <!-- 1. Developer -> GitHub (Push code) -->
+  <circle r="4.5" class="flow-dot">
+    <animateMotion dur="2.2s" repeatCount="indefinite" calcMode="linear">
+      <mpath href="#path-dev-github" />
+    </animateMotion>
+  </circle>
+
+  <!-- 2. GitHub -> GitHub Actions CI (Pull code) -->
+  <circle r="4.5" class="flow-dot">
+    <animateMotion dur="2.2s" repeatCount="indefinite" calcMode="linear">
+      <mpath href="#path-github-ci" />
+    </animateMotion>
+  </circle>
+
+  <!-- 3. GitHub Actions CI -> OWASP (Dependency check) -->
+  <circle r="4.5" class="flow-dot">
+    <animateMotion dur="2.4s" repeatCount="indefinite" calcMode="linear">
+      <mpath href="#path-ci-owasp" />
+    </animateMotion>
+  </circle>
+
+  <!-- 4. OWASP -> SonarQube (Code and quality gate analysis) -->
+  <circle r="4.5" class="flow-dot">
+    <animateMotion dur="2.6s" repeatCount="indefinite" calcMode="linear">
+      <mpath href="#path-owasp-sonar" />
+    </animateMotion>
+  </circle>
+
+  <!-- 5. SonarQube -> Trivy (Filesystem scan) -->
+  <circle r="4.5" class="flow-dot">
+    <animateMotion dur="1.8s" repeatCount="indefinite" calcMode="linear">
+      <mpath href="#path-sonar-trivy" />
+    </animateMotion>
+  </circle>
+
+  <!-- 6. Trivy -> Docker (Docker build and push) -->
+  <circle r="4.5" class="flow-dot">
+    <animateMotion dur="2.5s" repeatCount="indefinite" calcMode="linear">
+      <mpath href="#path-trivy-docker" />
+    </animateMotion>
+  </circle>
+
+  <!-- 7. GitHub Actions CI -> GitHub CD (Trigger CD) -->
+  <circle r="4.5" class="flow-dot-warm">
+    <animateMotion dur="2.6s" repeatCount="indefinite" calcMode="linear">
+      <mpath href="#path-ci-cd" />
+    </animateMotion>
+  </circle>
+
+  <!-- 8. GitHub CD -> Argo CD (Deploy on K8s) -->
+  <circle r="4.5" class="flow-dot-warm">
+    <animateMotion dur="2.4s" repeatCount="indefinite" calcMode="linear">
+      <mpath href="#path-cd-argo" />
+    </animateMotion>
+  </circle>
+
+  <!-- 9. Argo CD -> Kubernetes -->
+  <circle r="4.5" class="flow-dot-warm">
+    <animateMotion dur="2.2s" repeatCount="indefinite" calcMode="linear">
+      <mpath href="#path-argo-k8s" />
+    </animateMotion>
+  </circle>
+
+  <!-- 10. Kubernetes -> Prometheus (Monitoring) -->
+  <circle r="4.5" class="flow-dot-warm">
+    <animateMotion dur="3.0s" repeatCount="indefinite" calcMode="linear">
+      <mpath href="#path-k8s-prom" />
+    </animateMotion>
+  </circle>
+
+  <!-- 11. Prometheus -> Grafana -->
+  <circle r="4.5" class="flow-dot-warm">
+    <animateMotion dur="1.8s" repeatCount="indefinite" calcMode="linear">
+      <mpath href="#path-prom-grafana" />
+    </animateMotion>
+  </circle>
+
+  <!-- 12. Grafana -> Gmail (Notify on email) -->
+  <circle r="4.5" class="flow-dot-warm">
+    <animateMotion dur="2.4s" repeatCount="indefinite" calcMode="linear">
+      <mpath href="#path-grafana-gmail" />
+    </animateMotion>
+  </circle>
+</svg>

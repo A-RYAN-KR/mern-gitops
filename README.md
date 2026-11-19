@@ -24,7 +24,7 @@ This project is built around automated CI/CD flow triggering code quality, conta
 
 ### 🔁 System Architecture & Pipeline Flow
 
-<img src="assets/System%20Architecture.png" alt="System Architecture" width="100%" style="border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);" />
+<img src="assets/system-architecture.svg" alt="System Architecture" width="100%" style="border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);" />
 
 ---
 
